@@ -30,6 +30,6 @@ public class ArticuloService {
     }
 
     public void eliminar(Integer id) throws EmptyResultDataAccessException {
-        articuloRepository.deleteByIdArticulo(id);
+        articuloRepository.deleteById(id);
     }
 }
