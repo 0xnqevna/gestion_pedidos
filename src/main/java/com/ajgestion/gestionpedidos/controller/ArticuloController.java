@@ -44,15 +44,15 @@ public class ArticuloController {
     @PutMapping("/{id}")
     public ResponseEntity<Articulo> actualizarArticulo(@PathVariable Integer id, @RequestBody Articulo articulo){
         Optional<Articulo> articuloExistente = articuloService.obtenerPorId(id);
-        if(articuloExistente.isPresent()){
-            Articulo articuloModificado = articuloService.guardar(articulo);
-            return new ResponseEntity<>(articuloModificado, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(!articuloExistente.isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        articulo.setId(id);
+        Articulo articuloModificado = articuloService.guardar(articulo);
+        return new ResponseEntity<>(articuloModificado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Articulo> eliminarArticulo(@PathVariable Integer id){
+    public ResponseEntity<Void> eliminarArticulo(@PathVariable Integer id){
         try {
             articuloService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.OK);

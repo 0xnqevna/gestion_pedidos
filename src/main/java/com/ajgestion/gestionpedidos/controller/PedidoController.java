@@ -52,7 +52,7 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pedido> eliminarPedido(@PathVariable Long id){
+    public ResponseEntity<Void> eliminarPedido(@PathVariable Long id){
         try{
             pedidoService.eliminar(id);
             return new ResponseEntity<>(HttpStatus.OK);
