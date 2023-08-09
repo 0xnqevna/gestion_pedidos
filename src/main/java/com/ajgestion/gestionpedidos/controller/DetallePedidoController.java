@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/detalles_pedido")
 public class DetallePedidoController {
     private final DetallePedidoService detallePedidoService;
 
