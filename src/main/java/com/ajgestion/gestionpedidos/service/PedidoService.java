@@ -40,10 +40,17 @@ public class PedidoService {
     }
 
     public List<Pedido> obtenerPedidosFabrica(String fabrica){
-        return pedidoRepository.findByFabricaContains(fabrica);
+        return pedidoRepository.findByFabrica(fabrica);
     }
 
     public List<Pedido> obtenerPedidosNum(Integer numPedido){
         return pedidoRepository.findByNumPedido(numPedido);
+    }
+
+    public List<Pedido> obtenerPedidosFabricaRangoFecha(String fabrica, Date startDate, Date endDate){
+        return pedidoRepository.findByFabricaContainsAndFechaServicioBetween(fabrica, startDate, endDate);
+    }
+    public Optional<Pedido> obtenerPedidoFabricaNumPedido(String fabrica, Integer numPedido){
+        return pedidoRepository.findByFabricaAndNumPedido(fabrica, numPedido);
     }
 }

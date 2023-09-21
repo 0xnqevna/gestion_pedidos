@@ -1,6 +1,10 @@
 package com.ajgestion.gestionpedidos.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Table(name = "detalles_pedido")
@@ -8,14 +12,17 @@ public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detalleId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
+    @JsonBackReference
     private Pedido pedido;
     @ManyToOne
     @JoinColumn(name = "articulo_id", nullable = false)
     private Articulo articulo;
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
+    @Column(name = "cantidad_entregada", nullable = false)
+    private Integer cantidadEntregada = 0;
 
     public Long getDetalleId() {
         return detalleId;
@@ -47,5 +54,32 @@ public class DetallePedido {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Integer getCantidadEntregada() {
+        return cantidadEntregada;
+    }
+
+    public void setCantidadEntregada(Integer cantidadEntregada) {
+        this.cantidadEntregada = cantidadEntregada;
+    }
+
+    public BigDecimal calcularImporteEsperado(){
+        return calcularImporteEsperado(this.cantidad);
+    }
+
+    public BigDecimal calcularImporteEsperado(Integer cantidad){
+        if(cantidad < 250)
+            return new BigDecimal(cantidad).multiply(articulo.getPrecioUnitario1());
+        if(cantidad < 500)
+            return new BigDecimal(cantidad).multiply(articulo.getPrecioUnitario2());
+        return new BigDecimal(cantidad).multiply(articulo.getPrecioUnitario3()).setScale(2, RoundingMode.HALF_UP);
+    }
+
+
+    public BigDecimal calcularImporteReal(){
+        if(cantidadEntregada == 0)
+            return calcularImporteEsperado(cantidad);
+        return calcularImporteEsperado(cantidadEntregada);
     }
 }

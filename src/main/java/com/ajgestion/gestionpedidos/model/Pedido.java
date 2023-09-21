@@ -1,8 +1,13 @@
 package com.ajgestion.gestionpedidos.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "pedidos")
@@ -18,8 +23,9 @@ public class Pedido {
     private Date fechaServicio;
     @Column(name = "fabrica", nullable = false)
     private String fabrica;
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<DetallePedido> detalles;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<DetallePedido> detalles = new HashSet<>();
     public Long getPedidoId() {
         return pedidoId;
     }
@@ -60,11 +66,11 @@ public class Pedido {
         this.fabrica = fabrica;
     }
 
-    public List<DetallePedido> getDetalles() {
+    public Set<DetallePedido> getDetalles() {
         return detalles;
     }
 
-    public void setDetalles(List<DetallePedido> detalles) {
+    public void setDetalles(Set<DetallePedido> detalles) {
         this.detalles = detalles;
     }
 }

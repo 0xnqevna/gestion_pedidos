@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AlbaranRepository extends JpaRepository<Albaran, Long> {
-    List<Albaran> findByPedido(Pedido pedido);
 }

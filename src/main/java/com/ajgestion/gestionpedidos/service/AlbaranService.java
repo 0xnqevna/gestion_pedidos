@@ -29,10 +29,6 @@ public class AlbaranService {
         return albaranRepository.findById(id);
     }
 
-    public List<Albaran> obtenerPorPedido(Pedido pedido) {
-        return albaranRepository.findByPedido(pedido);
-    }
-
     public Albaran guardar(Albaran albaran) {
         return albaranRepository.save(albaran);
     }
