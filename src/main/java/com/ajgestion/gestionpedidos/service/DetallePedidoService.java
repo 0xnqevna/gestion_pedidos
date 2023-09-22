@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -33,5 +34,8 @@ public class DetallePedidoService {
 
     public void eliminar(Long id) throws EmptyResultDataAccessException {
         detallePedidoRepository.deleteById(id);
+    }
+    public List<Map<String, Object>> obtenerPendientes(){
+        return detallePedidoRepository.findIncompleteDetallePedidosWithPedidoNum();
     }
 }

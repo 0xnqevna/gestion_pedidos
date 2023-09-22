@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -60,5 +61,10 @@ public class DetallePedidoController {
         catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/porServir")
+    public ResponseEntity<List<Map<String, Object>>> obtenerPendientes(){
+        List<Map<String, Object>> detalles = detallePedidoService.obtenerPendientes();
+        return ResponseEntity.ok(detalles);
     }
 }
